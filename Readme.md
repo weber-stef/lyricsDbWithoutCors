@@ -5,6 +5,14 @@ A minimalistic **MVC** (Model-View-Controller) Web Application with **CRUD** (cr
 #### "As slight as possible"
 Since Express >= 4.16.0, body parser has been re-added under the methods express.json() and express.urlencoded(), this web app use only 2 dependency: [Express](https://expressjs.com) & [Mongoose](https://mongoosejs.com)
 
+
+## Features
+- Database seeding with sample data
+- Express Middleware 
+- Response object has a json() 
+- MVC (Model-View-Controller)
+- CRUD (create, read, update, delete)
+
 ## Setup & run
 
 - Clone the repo
@@ -20,10 +28,4 @@ Since Express >= 4.16.0, body parser has been re-added under the methods express
 - `npm run dev` uses nodemon (you need it global installed)
 - `npm start` uses node
 
-## Features
-- Database seeding with sample data
-- Express Middleware 
-- Response object has a json() 
-- MVC (Model-View-Controller)
-- CRUD (create, read, update, delete)
 
