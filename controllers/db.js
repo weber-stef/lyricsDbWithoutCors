@@ -42,9 +42,23 @@ module.exports = {
         res.json(lyrics)
     },
     show: async (req, res) => {
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.lyric_id))
+            res.json({
+                status: "error",
+                message: 'ID not valid',
+            })
+
         const lyric = await Lyric.findById(req.params.lyric_id)
-        console.log(lyric);
-        res.json(lyric)
+        if (!lyric) {
+            res.json({
+                status: "error",
+                message: 'Lyric not found',
+            })
+        } else {
+            console.log(lyric);
+            res.json(lyric)
+        }
     },
     add: async (req, res) => {
         const newLyric = new Lyric();
@@ -63,24 +77,44 @@ module.exports = {
         });
     },
     update: async (req, res) => {
-        const lyric = await Lyric.findById(req.params.lyric_id)
-        lyric.title = req.body.title;
-        lyric.author = req.body.author;
-        lyric.content = req.body.content;
-        // update the lyric and check for errors
-        lyric.save((err) => {
-            if (err)
-                res.json(err);
 
+        if (!mongoose.Types.ObjectId.isValid(req.params.lyric_id))
             res.json({
-                status: "success",
-                message: 'Lyric updated!',
-                data: lyric
-            });
-        });
+                status: "error",
+                message: 'ID not valid',
+            })
 
+        const lyric = await Lyric.findById(req.params.lyric_id)
+        if (!lyric) {
+            res.json({
+                status: "error",
+                message: 'Lyric not found',
+            })
+        } else {
+            lyric.title = req.body.title;
+            lyric.author = req.body.author;
+            lyric.content = req.body.content;
+            // update the lyric and check for errors
+            lyric.save((err) => {
+                if (err)
+                    res.json(err);
+
+                res.json({
+                    status: "success",
+                    message: 'Lyric updated!',
+                    data: lyric
+                });
+            });
+        }
     },
     delete: async (req, res) => {
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.lyric_id))
+            res.json({
+                status: "error",
+                message: 'ID not valid',
+            })
+
         Lyric.deleteOne({
             _id: req.params.lyric_id
         }, function (err, lyric) {
