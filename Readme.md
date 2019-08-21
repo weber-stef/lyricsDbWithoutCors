@@ -33,8 +33,8 @@ Since Express >= 4.16.0, body parser has been re-added under the methods express
 
 ## Demo Examples
 
-[Overview](https://lyricsdb.leandro-berlin.now.sh/) All the lyrics in DB  
-[Single Lyric](https://lyricsdb.leandro-berlin.now.sh/lyrics/5d5d1ae7ef607625c75d27d4) A single lyric  
+[Overview](https://lyricsdb.leandro-berlin.now.sh/) - All the lyrics in DB  
+[Single Lyric](https://lyricsdb.leandro-berlin.now.sh/lyrics/5d5d1ae7ef607625c75d27d4) - A single lyric  
 
 
 ## Deployment on Zeit
