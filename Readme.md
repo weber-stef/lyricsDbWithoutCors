@@ -5,6 +5,9 @@ A minimalistic **MVC** (Model-View-Controller) Web Application with **CRUD** (cr
 #### "As slight as possible"
 Since Express >= 4.16.0, body parser has been re-added under the methods express.json() and express.urlencoded(), this web app use only 2 dependency: [Express](https://expressjs.com) & [Mongoose](https://mongoosejs.com)
 
+<br>
+<img src="screen.png" height="180px">
+<br>
 
 ## Features
 - Database seeding with sample data
