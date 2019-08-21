@@ -1,0 +1,18 @@
+{
+  "name": "lyricsDb",
+  "version": "0.1.0",
+  "description": "A CRUD MVC app with Node / MongoDB / Express and JSON",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Leandro <leandro@digitalcareerinstitute.de> (https://digitalcareerinstitute.de)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.6.9"
+  }
+}
