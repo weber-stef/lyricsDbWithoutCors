@@ -8,8 +8,8 @@ Since Express >= 4.16.0, body parser has been re-added under the methods express
 
 ## Features
 - Database seeding with sample data
-- Express Middleware 
-- Response object has a json() 
+- Express 4 Middleware 
+- Response Object as JSON
 - MVC (Model-View-Controller)
 - CRUD (create, read, update, delete)
 - [Zeit Now](https://zeit.co) deployment configuration
