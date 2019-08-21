@@ -4,6 +4,14 @@ const lyricSchema = require('../models/Lyric');
 /* Model - https://mongoosejs.com/docs/guide.html#models */
 const Lyric = mongoose.model('Lyric', lyricSchema);
 
+/* Helper function to check if ID is valid */
+const isID = (id, res) => {
+    if (!mongoose.Types.ObjectId.isValid(id))
+        res.json({
+            status: "error",
+            message: 'ID not valid',
+        })
+}
 
 module.exports = {
 
@@ -43,11 +51,7 @@ module.exports = {
     },
     show: async (req, res) => {
 
-        if (!mongoose.Types.ObjectId.isValid(req.params.lyric_id))
-            res.json({
-                status: "error",
-                message: 'ID not valid',
-            })
+        isID(req.params.lyric_id, res)
 
         const lyric = await Lyric.findById(req.params.lyric_id)
         if (!lyric) {
@@ -78,11 +82,7 @@ module.exports = {
     },
     update: async (req, res) => {
 
-        if (!mongoose.Types.ObjectId.isValid(req.params.lyric_id))
-            res.json({
-                status: "error",
-                message: 'ID not valid',
-            })
+        isID(req.params.lyric_id, res)
 
         const lyric = await Lyric.findById(req.params.lyric_id)
         if (!lyric) {
@@ -109,11 +109,7 @@ module.exports = {
     },
     delete: async (req, res) => {
 
-        if (!mongoose.Types.ObjectId.isValid(req.params.lyric_id))
-            res.json({
-                status: "error",
-                message: 'ID not valid',
-            })
+        isID(req.params.lyric_id, res)
 
         Lyric.deleteOne({
             _id: req.params.lyric_id
