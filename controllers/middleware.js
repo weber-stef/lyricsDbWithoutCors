@@ -10,7 +10,7 @@ exports.run = async () => {
 
     app.get('/', db.list)
     /* CRUD */
-    app.route('/lyrics/:lyric_id')
+    app.route('/lyrics/:lyric_id?')
         .get(db.show)
         .post(db.add)
         .put(db.update)
