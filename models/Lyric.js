@@ -15,6 +15,22 @@ const lyricSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Why no content?']
   }
+},
+  { strict: "throw", timestamps: true }
+);
+
+/* Increment Versioning */
+
+// https://stackoverflow.com/questions/35288488/easy-way-to-increment-mongoose-document-versions-for-any-update-queries
+
+lyricSchema.pre('save', function (next) {
+  this.increment();
+  return next();
 });
 
-module.exports = lyricSchema;
+lyricSchema.pre('update', function (next) {
+  this.update({}, { $inc: { __v: 1 } }, next);
+});
+
+const lyricModel = mongoose.model('Lyric', lyricSchema);
+module.exports = lyricModel;

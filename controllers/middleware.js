@@ -1,5 +1,6 @@
 const express = require('express')
 const db = require('./db')
+const auth = require('./auth')
 
 exports.run = async () => {
     const app = express()
@@ -9,6 +10,12 @@ exports.run = async () => {
     app.use(express.urlencoded({ extended: true }));
 
     app.get('/', db.list)
+
+    app.post('/login', auth.login)
+    app.get('/me', auth.verify, async (req, res) => {
+        res.send(req.user);
+    })
+
     /* CRUD */
     app.route('/lyrics/:lyric_id?')
         .get(db.show)

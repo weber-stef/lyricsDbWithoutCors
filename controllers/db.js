@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-/* The Schema of our DB is defined in ./db/Lyric */
-const lyricSchema = require('../models/Lyric');
-/* Model - https://mongoosejs.com/docs/guide.html#models */
-const Lyric = mongoose.model('Lyric', lyricSchema);
+
+
+/* Models - https://mongoosejs.com/docs/guide.html#models */
+const Lyric = require('../models/Lyric');
+const User = require('../models/User');
+
 
 /* Helper function to check if ID is valid */
 const isID = (id, res) => {
@@ -42,12 +44,21 @@ module.exports = {
                 })
             })
         }
+        const users = await User.find({})
+        if (users.length == 0) {
+            console.log(`No users found, we need to create an admin`);
+            User.create({
+                email: 'admin@admin.net',
+                password: 'admin',
+                role: 0
+            })
+        }
         console.log(`Check your lyrics collection on http://localhost:3000`);
     },
     list: async (req, res) => {
         const lyrics = await Lyric.find({})
         console.log(lyrics);
-        res.json(lyrics)
+        res.status(200).json(lyrics)
     },
     show: async (req, res) => {
 
@@ -55,7 +66,7 @@ module.exports = {
 
         const lyric = await Lyric.findById(req.params.lyric_id)
         if (!lyric) {
-            res.json({
+            res.status(500).json({
                 status: "error",
                 message: 'Lyric not found',
             })
@@ -74,7 +85,7 @@ module.exports = {
             if (err)
                 res.json(err);
 
-            res.json({
+            res.status(200).json({
                 message: 'New lyric created!',
                 data: newLyric
             });
@@ -84,9 +95,9 @@ module.exports = {
 
         isID(req.params.lyric_id, res)
 
-        const lyric = await Lyric.findById(req.params.lyric_id)
+        const lyric = await Lyric.findOne({ "_id": req.params.lyric_id })
         if (!lyric) {
-            res.json({
+            res.status(500).json({
                 status: "error",
                 message: 'Lyric not found',
             })
@@ -97,9 +108,9 @@ module.exports = {
             // update the lyric and check for errors
             lyric.save((err) => {
                 if (err)
-                    res.json(err);
+                    res.status(500).json(err);
 
-                res.json({
+                res.status(200).json({
                     status: "success",
                     message: 'Lyric updated!',
                     data: lyric
@@ -116,9 +127,10 @@ module.exports = {
         }, function (err, lyric) {
             if (err)
                 res.send(err);
-            res.json({
+            res.status(200).json({
                 status: "success",
-                message: 'Lyric deleted'
+                message: 'Lyric deleted',
+                lyric
             });
         })
     }
