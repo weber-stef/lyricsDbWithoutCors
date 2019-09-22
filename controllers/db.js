@@ -53,7 +53,7 @@ module.exports = {
                 role: 0
             })
         }
-        console.log(`Check your lyrics collection on http://localhost:3000`);
+        console.log(`Check your lyrics collection on http://localhost:4000`);
     },
     list: async (req, res) => {
         const lyrics = await Lyric.find({})

@@ -4,12 +4,13 @@ const auth = require('./auth')
 
 exports.run = async () => {
     const app = express()
-    // parse application/json, basically parse incoming Request Object as a JSON Object 
+    // parse application/json, basically parse incoming Request Object as a JSON Object
     app.use(express.json());
     // parse incoming Request Object if object, with nested objects, or generally any type.
     app.use(express.urlencoded({ extended: true }));
 
     app.get('/', db.list)
+    app.get('/list', db.list)
 
     app.post('/login', auth.login)
     app.get('/me', auth.verify, async (req, res) => {
@@ -23,5 +24,5 @@ exports.run = async () => {
         .put(db.update)
         .delete(db.delete);
 
-    app.listen(3000)
+    app.listen(4000)
 }
