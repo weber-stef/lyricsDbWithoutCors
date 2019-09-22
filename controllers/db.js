@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const json = require('./json')
 
 /* Models - https://mongoosejs.com/docs/guide.html#models */
 const Lyric = require('../models/Lyric');
@@ -20,7 +20,7 @@ module.exports = {
     connect: async () => {
         /* Mongose connect - https://mongoosejs.com/docs/connections.html */
 
-        mongoose.connect(`mongodb://localhost:27017/LyricsDb`, { useNewUrlParser: true }).then(
+        await mongoose.connect(`mongodb://localhost:27017/LyricsDb`, { useNewUrlParser: true }).then(
             () => {
                 console.log(`Ready to go: connected to MongoDB Lyrics`)
             },
@@ -32,18 +32,7 @@ module.exports = {
     }
     ,
     seed: async () => {
-        const lyrics = await Lyric.find({})
-        if (lyrics.length == 0) {
-            console.log(`No lyrics in database, let's create some`);
-            const titles = ["We will code you", "Another one bite the stack", "JS Rapsody"]
-            titles.map(title => {
-                Lyric.create({
-                    author: 'DevQueens',
-                    title: title,
-                    content: `Lorem ipsum set dolor amet of ${title}`
-                })
-            })
-        }
+
         const users = await User.find({})
         if (users.length == 0) {
             console.log(`No users found, we need to create an admin`);
@@ -77,9 +66,15 @@ module.exports = {
     },
     add: async (req, res) => {
         const newLyric = new Lyric();
-        newLyric.title = req.body.title;
-        newLyric.author = req.body.author;
-        newLyric.content = req.body.content;
+
+        for (var key in req.body) {
+            if (req.body.hasOwnProperty(key)) {
+                //console.log(`${data[key]} =  ${req.body[key]}`)
+                newLyric[key] = req.body[key]
+            }
+        }
+
+        newLyric['json'] = await json.createJson(newLyric)
         // save the lyric and check for errors
         newLyric.save((err) => {
             if (err)
@@ -102,9 +97,14 @@ module.exports = {
                 message: 'Lyric not found',
             })
         } else {
-            lyric.title = req.body.title;
-            lyric.author = req.body.author;
-            lyric.content = req.body.content;
+            for (var key in req.body) {
+                if (req.body.hasOwnProperty(key)) {
+                    //console.log(`${data[key]} =  ${req.body[key]}`)
+                    lyric[key] = req.body[key]
+                }
+
+            }
+            lyric.json = await json.createJson(lyric)
             // update the lyric and check for errors
             lyric.save((err) => {
                 if (err)

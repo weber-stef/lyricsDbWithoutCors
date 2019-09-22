@@ -1,5 +1,6 @@
 const express = require('express')
 const db = require('./db')
+const json = require('./json')
 const auth = require('./auth')
 
 exports.run = async () => {
@@ -23,6 +24,12 @@ exports.run = async () => {
         .post(db.add)
         .put(db.update)
         .delete(db.delete);
+
+
+    app.get('/random/:stringLengthMin?/:stringLengthMax?/:numberLines?', json.searchString)
+
+    app.get('/import/', json.createJsonAll)
+
 
     app.listen(4000)
 }
