@@ -65,25 +65,14 @@ module.exports = {
         unfilteredTexts.map(async (singleText) => {
 
             const jsonData = unfilteredTextArray(singleText);
-
             const lyric = await Lyric.findOne({ "_id": singleText._id })
+
             if (!lyric) {
-                res.status(500).json({
-                    status: "error",
-                    message: 'Lyric not found',
-                })
+                console.log("createJsonAll: Lyric not found")
             } else {
-
-                //console.log(`${data[key]} =  ${req.body[key]}`)
                 lyric.json = JSON.stringify(jsonData)
-
+                return lyric.json
             }
-
-        })
-
-        res.status(200).json({
-            status: "Done",
-            message: 'Json data updated',
         })
     },
     createJson: (lyric) => {
