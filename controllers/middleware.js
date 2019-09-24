@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const db = require('./db')
 const json = require('./json')
 const auth = require('./auth')
@@ -9,6 +10,9 @@ exports.run = async () => {
     app.use(express.json());
     // parse incoming Request Object if object, with nested objects, or generally any type.
     app.use(express.urlencoded({ extended: true }));
+
+    app.use(cors());
+    app.options('*', cors());
 
     app.get('/', db.list)
     app.get('/list', db.list)
