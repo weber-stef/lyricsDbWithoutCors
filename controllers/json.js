@@ -34,10 +34,27 @@ module.exports = {
         const lineLengthMin = req.params.stringLengthMin ? req.params.stringLengthMin : 10;
         const lineLengthMax = req.params.stringLengthMax ? req.params.stringLengthMax : 60;
         const numberLines = req.params.numberLines ? req.params.numberLines : 12;
+        const artist = req.params.artist ? req.params.artist : '';
         // Filter and assign all the lines that match the length + flat the array
         const selectedContents = contents.map(lyric => {
             const content = JSON.parse(lyric)
-            return content.filter(line => (line.lengthOfLine >= lineLengthMin && lineLengthMax ? line.text : ''))
+            //return content.filter(line => (line.lengthOfLine >= lineLengthMin && lineLengthMax ? line.text : ''))
+            if (artist != '') {
+                return content.filter(line =>
+                    (line.lengthOfLine >= lineLengthMin) &&
+                        (line.lengthOfLine <= lineLengthMax) &&
+                        (line.author == artist)
+                        ? line.text
+                        : ""
+                );
+            } else {
+                return content.filter(line =>
+                    (line.lengthOfLine >= lineLengthMin) &&
+                        (line.lengthOfLine <= lineLengthMax)
+                        ? line.text
+                        : ""
+                );
+            }
         }
         ).flat()
 
@@ -79,6 +96,11 @@ module.exports = {
         const jsonData = unfilteredTextArray(lyric);
         lyric.json = JSON.stringify(jsonData)
         return lyric.json
+    },
+    allArtists: async (req, res) => {
+        const lyrics = await Lyric.find({})
+        const authors = [...new Set(lyrics.map(lyric => lyric.author))];
+        res.json(authors)
     }
 
 

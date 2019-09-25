@@ -25,7 +25,7 @@ module.exports = {
                 console.log(`Ready to go: connected to MongoDB Lyrics`)
             },
             err => { //handle initial connection error
-                console.err(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
+                console.log(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
                 process.exit(1);
             }
         )
