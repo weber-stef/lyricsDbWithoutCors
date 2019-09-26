@@ -30,11 +30,12 @@ exports.run = async () => {
         .delete(db.delete);
 
 
-    app.get('/random/:stringLengthMin?/:stringLengthMax?/:numberLines?/:artist?', json.searchString)
+    app.route('/random/:stringLengthMin?/:stringLengthMax?/:numberLines?/:artist?')
+        .get(json.searchString)
 
-    app.get('/allArtists', json.allArtists)
+    app.route('/allArtists').get(json.allArtists)
 
-    app.get('/import/', json.createJsonAll)
+    app.route('/import/').get(json.createJsonAll)
 
 
     app.listen(4000)

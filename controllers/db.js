@@ -80,6 +80,7 @@ module.exports = {
             if (err)
                 res.json(err);
 
+
             res.status(200).json({
                 message: 'New lyric created!',
                 data: newLyric
