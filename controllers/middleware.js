@@ -14,6 +14,7 @@ exports.run = async () => {
     app.use(cors());
     app.options('*', cors());
 
+
     app.get('/', db.list)
     app.get('/list', db.list)
 

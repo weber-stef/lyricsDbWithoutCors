@@ -19,6 +19,9 @@ const lyricSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Why no date?']
   },
+  gender: {
+    type: String
+  },
   json: {
     type: String
   }
