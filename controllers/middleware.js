@@ -31,7 +31,7 @@ exports.run = async () => {
         .delete(db.delete);
 
 
-    app.route('/random/:stringLengthMin?/:stringLengthMax?/:numberLines?/:artist?')
+    app.route('/random/:stringLengthMin?/:stringLengthMax?/:numberLines?/:artist?/:gender?')
         .get(json.searchString)
 
     app.route('/allArtists').get(json.allArtists)

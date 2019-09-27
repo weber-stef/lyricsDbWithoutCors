@@ -20,6 +20,7 @@ const unfilteredTextArray = singleText =>
         return {
             author: singleText.author,
             title: singleText.title,
+            gender: singleText.gender,
             text: singleTextLine,
             lengthOfLine: singleTextLine.length,
         };
@@ -34,27 +35,55 @@ module.exports = {
         const lineLengthMin = req.params.stringLengthMin ? req.params.stringLengthMin : 10;
         const lineLengthMax = req.params.stringLengthMax ? req.params.stringLengthMax : 60;
         const numberLines = req.params.numberLines ? req.params.numberLines : 12;
-        const artist = req.params.artist ? req.params.artist : '';
+        const artist = req.params.artist ? req.params.artist : 'All';
+        const gender = req.params.gender ? req.params.gender : 'All'
         // Filter and assign all the lines that match the length + flat the array
         const selectedContents = contents.map(lyric => {
             const content = JSON.parse(lyric)
             //return content.filter(line => (line.lengthOfLine >= lineLengthMin && lineLengthMax ? line.text : ''))
-            if (artist != '') {
-                return content.filter(line =>
-                    (line.lengthOfLine >= lineLengthMin) &&
-                        (line.lengthOfLine <= lineLengthMax) &&
-                        (line.author == artist)
-                        ? line.text
-                        : ""
-                );
+
+            if (artist == "All") {
+
+                if (gender == "All") {
+                    return content.filter(line =>
+                        (line.lengthOfLine >= lineLengthMin) &&
+                            (line.lengthOfLine <= lineLengthMax)
+                            ? line.text
+                            : ""
+                    );
+                } else {
+                    return content.filter(line =>
+                        (line.lengthOfLine >= lineLengthMin) &&
+                            (line.lengthOfLine <= lineLengthMax) &&
+                            (line.gender == gender)
+                            ? line.text
+                            : ""
+                    );
+                }
+
             } else {
-                return content.filter(line =>
-                    (line.lengthOfLine >= lineLengthMin) &&
-                        (line.lengthOfLine <= lineLengthMax)
-                        ? line.text
-                        : ""
-                );
+                if (gender == "All") {
+                    return content.filter(line =>
+                        (line.lengthOfLine >= lineLengthMin) &&
+                            (line.lengthOfLine <= lineLengthMax) &&
+                            (line.author == artist)
+                            ? line.text
+                            : ""
+                    );
+                } else {
+                    return content.filter(line =>
+                        (line.lengthOfLine >= lineLengthMin) &&
+                            (line.lengthOfLine <= lineLengthMax) &&
+                            (line.author == artist) &&
+                            (line.gender == gender)
+                            ? line.text
+                            : ""
+                    );
+                }
+
             }
+
+
         }
         ).flat()
 
@@ -64,7 +93,7 @@ module.exports = {
         if (selectLyrics instanceof Array) {
             const lyrics = selectLyrics.map(randomLine => {
                 var lyric = {
-                    requested_length: lineLengthMin + ' / ' + lineLengthMax, string: randomLine.text, author: randomLine.author, title: randomLine.title, length: randomLine.lengthOfLine
+                    requested_length: lineLengthMin + ' / ' + lineLengthMax, string: randomLine.text, author: randomLine.author, gender: randomLine.gender, title: randomLine.title, length: randomLine.lengthOfLine
                 }
                 return lyric;
             })
