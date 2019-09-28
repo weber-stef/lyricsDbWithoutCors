@@ -14,13 +14,6 @@ const lyricSchema = new mongoose.Schema({
   content: {
     type: String,
     required: [true, 'Why no content?']
-  },
-  date: {
-    type: String,
-    required: [true, 'Why no date?']
-  },
-  json: {
-    type: String
   }
 },
   { strict: "throw", timestamps: true }

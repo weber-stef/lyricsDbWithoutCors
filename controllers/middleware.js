@@ -1,21 +1,20 @@
 const express = require('express')
-const cors = require('cors')
 const db = require('./db')
-const json = require('./json')
 const auth = require('./auth')
+// Import the library:
+const cors = require('cors');
+// Then use it before your routes are set up:
 
 exports.run = async () => {
     const app = express()
-    // parse application/json, basically parse incoming Request Object as a JSON Object
+    // parse application/json, basically parse incoming Request Object as a JSON Object 
+    app.use(cors());
+
     app.use(express.json());
     // parse incoming Request Object if object, with nested objects, or generally any type.
     app.use(express.urlencoded({ extended: true }));
 
-    app.use(cors());
-    app.options('*', cors());
-
     app.get('/', db.list)
-    app.get('/list', db.list)
 
     app.post('/login', auth.login)
     app.get('/me', auth.verify, async (req, res) => {
@@ -28,14 +27,6 @@ exports.run = async () => {
         .post(db.add)
         .put(db.update)
         .delete(db.delete);
-
-
-    app.get('/random/:stringLengthMin?/:stringLengthMax?/:numberLines?/:artist?', json.searchString)
-
-    app.get('/allArtists', json.allArtists)
-
-    app.get('/import/', json.createJsonAll)
-
 
     app.listen(4000)
 }
